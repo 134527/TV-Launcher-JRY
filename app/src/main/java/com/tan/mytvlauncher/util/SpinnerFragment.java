@@ -10,9 +10,7 @@ import android.view.ViewGroup;
 import android.widget.FrameLayout;
 import android.widget.ProgressBar;
 
-/**
- * Created by t1569 on 2017/9/24.
- */
+
 
 public class SpinnerFragment extends Fragment {
     private static final String TAG = SpinnerFragment.class.getSimpleName();

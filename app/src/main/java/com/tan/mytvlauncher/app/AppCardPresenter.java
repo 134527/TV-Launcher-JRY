@@ -13,9 +13,6 @@ import android.widget.TextView;
 
 import com.tan.mytvlauncher.R;
 
-/**
- * Created by t1569 on 2017/9/22.
- */
 
 public class AppCardPresenter extends Presenter {
     private static final String TAG = "AppCardPresenter";

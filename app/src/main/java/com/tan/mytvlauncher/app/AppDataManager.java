@@ -10,9 +10,7 @@ import java.util.ArrayList;
 import java.util.Iterator;
 import java.util.List;
 
-/**
- * Created by t1569 on 2017/9/23.
- */
+
 
 public class AppDataManager {
     private final Context mContext;

@@ -3,9 +3,6 @@ package com.tan.mytvlauncher.card;
 import java.util.ArrayList;
 import java.util.List;
 
-/**
- * Created by t1569 on 2017/9/22.
- */
 
 public class CardModel {
     private long id;

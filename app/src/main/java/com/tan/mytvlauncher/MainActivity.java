@@ -71,9 +71,9 @@ public class MainActivity extends Activity {
         setContentView(R.layout.activity_main);
         mContext = this;
         mBrowseFragment = (BrowseFragment) getFragmentManager().findFragmentById(R.id.browse_fragment);
-        mBrowseFragment.setHeadersState(BrowseFragment.HEADERS_DISABLED);
+        mBrowseFragment.setHeadersState(BrowseFragment.HEADERS_DISABLED); // 隐藏头部
 
-        getLoaderManager().initLoader(ITEM_LOADER_ID, null, new MainFragmentLoaderCallbacks());
+        getLoaderManager().initLoader(ITEM_LOADER_ID, null, new MainFragmentLoaderCallbacks());  // 初始化loader
 
         mBrowseFragment.setTitle(getString(R.string.app_name));
         prepareBackgroundManager();

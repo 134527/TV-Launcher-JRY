@@ -13,9 +13,7 @@ import com.tan.mytvlauncher.app.AppModel;
 
 import java.util.List;
 
-/**
- * Created by t1569 on 2017/9/23.
- */
+
 
 public class AppUninstallAdapter extends BaseAdapter {
     private final List<AppModel> appModels;

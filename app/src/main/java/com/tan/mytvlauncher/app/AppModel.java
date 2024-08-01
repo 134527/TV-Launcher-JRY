@@ -6,9 +6,7 @@ import android.graphics.drawable.Drawable;
 import android.support.annotation.NonNull;
 import android.util.Log;
 
-/**
- * Created by t1569 on 2017/9/23.
- */
+
 
 public class AppModel {
     private static final String TAG = "AppModel";

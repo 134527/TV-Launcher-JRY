@@ -12,9 +12,6 @@ import android.widget.TextView;
 import com.tan.mytvlauncher.R;
 import com.tan.mytvlauncher.app.AppModel;
 
-/**
- * Created by t1569 on 2017/9/22.
- */
 
 public class FunctionCardPresenter extends Presenter {
     private static final String TAG = "FunctionCardPresenter";

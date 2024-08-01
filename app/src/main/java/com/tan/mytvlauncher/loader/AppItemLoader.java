@@ -23,9 +23,7 @@ import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
-/**
- * Created by t1569 on 2017/9/24.
- */
+
 
 public class AppItemLoader extends AsyncTaskLoader<List<ListRow>> {
     private static final String TAG = AppItemLoader.class.getSimpleName();
@@ -56,7 +54,7 @@ public class AppItemLoader extends AsyncTaskLoader<List<ListRow>> {
     }
 
     private ListRow getUsedRow() {
-        ArrayObjectAdapter usedListRowAdapter = new ArrayObjectAdapter(new AppCardPresenter(CARD_L_WIDTH, CARD_L_HEIGHT));
+        ArrayObjectAdapter usedListRowAdapter = new ArrayObjectAdapter(new AppCardPresenter());
         ArrayList<AppModel> appModels = (ArrayList<AppModel>) mAppModels.clone();
         Collections.sort(appModels, new Comparator<AppModel>() {
             public int compare(AppModel appModel1, AppModel appModel2) {
