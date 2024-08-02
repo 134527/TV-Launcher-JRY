@@ -19,7 +19,7 @@ public class AppDataManager {
         mContext = context;
     }
 
-    public ArrayList<AppModel> getLauncherAppList() {
+    public ArrayList<AppModel> getLauncherAppList() { //获取应用列表
         PackageManager packageManager = mContext.getPackageManager();
         Intent intent = new Intent(Intent.ACTION_MAIN);
         intent.addCategory(Intent.CATEGORY_LAUNCHER);

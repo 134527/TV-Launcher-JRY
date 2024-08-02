@@ -5,6 +5,7 @@ import android.content.Intent;
 
 import com.tan.mytvlauncher.R;
 import com.tan.mytvlauncher.app.AppUninstallActivity;
+import com.tan.mytvlauncher.app.ChangeTheWallpaper;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -55,8 +56,12 @@ public class FunctionModel {
         appUninstall.setName(context.getString(R.string.appUninstall));
         appUninstall.setIcon(R.drawable.ic_delete_forever_black_96dp);
         appUninstall.setIntent(new Intent(context, AppUninstallActivity.class));
-
+        FunctionModel appbackgroundchange = new FunctionModel();
+        appbackgroundchange.setName(context.getString(R.string.appbackgroundchange));
+        appbackgroundchange.setIcon(R.drawable.ic_app_background_change);
+        appbackgroundchange.setId("appbackgroundchange");
         functionModels.add(appUninstall);
+        functionModels.add(appbackgroundchange);
         return functionModels;
     }
 }

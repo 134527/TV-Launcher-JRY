@@ -1,6 +1,7 @@
 package com.tan.mytvlauncher;
 
 import android.app.Activity;
+import android.app.WallpaperManager;
 import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
@@ -8,8 +9,12 @@ import android.content.IntentFilter;
 import android.content.Loader;
 import android.content.pm.PackageManager;
 import android.content.pm.ResolveInfo;
+import android.graphics.Bitmap;
+import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.os.AsyncTask;
+import android.support.annotation.NonNull;
+import android.support.annotation.Nullable;
 import android.support.v17.leanback.app.BackgroundManager;
 import android.support.v17.leanback.app.BrowseFragment;
 import android.support.v17.leanback.widget.ArrayObjectAdapter;
@@ -23,8 +28,14 @@ import android.support.v17.leanback.widget.Row;
 import android.support.v17.leanback.widget.RowPresenter;
 import android.util.DisplayMetrics;
 import android.util.Log;
+import android.view.Menu;
+import android.view.MenuItem;
+import android.view.View;
+
+
 
 import com.bumptech.glide.Glide;
+
 import com.bumptech.glide.request.target.SimpleTarget;
 import com.bumptech.glide.request.transition.Transition;
 import com.google.gson.Gson;
@@ -34,6 +45,7 @@ import com.tan.mytvlauncher.app.AppCardPresenter;
 import com.tan.mytvlauncher.app.AppDataManager;
 import com.tan.mytvlauncher.app.AppModel;
 import com.tan.mytvlauncher.app.BingImage;
+import com.tan.mytvlauncher.app.ChangeTheWallpaper;
 import com.tan.mytvlauncher.card.CardModel;
 import com.tan.mytvlauncher.card.CardPresenter;
 import com.tan.mytvlauncher.function.FunctionCardPresenter;
@@ -44,6 +56,7 @@ import com.tan.mytvlauncher.util.Tools;
 
 import org.json.JSONObject;
 
+import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
@@ -93,8 +106,9 @@ public class MainActivity extends Activity {
     @Override
     protected void onRestart() {
         super.onRestart();
-        if (backImgUrl == null) setBingImg();
-        else setBackgroundImage();
+        setLauncherWallpaperAsSystemWallpaper();
+       /* if (backImgUrl == null) setBingImg();
+        else setBackgroundImage();*/
     }
 
     @Override
@@ -113,12 +127,32 @@ public class MainActivity extends Activity {
     private void prepareBackgroundManager() {
         mBackgroundManager = BackgroundManager.getInstance(this);
         mBackgroundManager.attach(this.getWindow());
-        mMetrics = new DisplayMetrics();
-        getWindowManager().getDefaultDisplay().getMetrics(mMetrics);
+      /*  mMetrics = new DisplayMetrics();
+        getWindowManager().getDefaultDisplay().getMetrics(mMetrics);*/
         //设置背景图
-        setBingImg();
+//        setBingImg();
+        //设置壁纸
+        setLauncherWallpaperAsSystemWallpaper();
     }
+    private void setLauncherWallpaperAsSystemWallpaper() {
+        WallpaperManager wallpaperManager = WallpaperManager.getInstance(this);
+        Drawable systemWallpaper = wallpaperManager.getDrawable();
 
+        if (systemWallpaper != null) {
+            Log.d(TAG, "System wallpaper type: " + systemWallpaper.getClass().getName());
+            if (systemWallpaper instanceof BitmapDrawable) {
+                BitmapDrawable bitmapDrawable = (BitmapDrawable) systemWallpaper;
+                Bitmap bitmap = bitmapDrawable.getBitmap();
+                Drawable drawable = new BitmapDrawable(getResources(), bitmap);
+                mBackgroundManager.setDrawable(drawable);
+                Log.d(TAG, "onResourceReady: " + drawable);
+            } else {
+                Log.e(TAG, "System wallpaper is not a BitmapDrawable");
+            }
+        } else {
+            Log.e(TAG, "System wallpaper is null");
+        }
+    }
     private void setBackgroundImage() {
         Glide.with(mContext)
                 .load(backImgUrl)
@@ -126,10 +160,24 @@ public class MainActivity extends Activity {
                     @Override
                     public void onResourceReady(Drawable resource, Transition<? super Drawable> transition) {
                         mBackgroundManager.setDrawable(resource);
+                        onSetWallpaper(mBrowseFragment);
                     }
                 });
     }
 
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        // Inflate the menu; this adds items to the action bar if it is present.
+        getMenuInflater().inflate(R.menu.main, menu);
+        return true;
+    }
+    public void onSetWallpaper(BrowseFragment view) {
+        //生成一个设置壁纸的请求
+        final Intent pickWallpaper = new Intent(Intent.ACTION_SET_WALLPAPER);
+        Intent chooser = Intent.createChooser(pickWallpaper,"chooser_wallpaper");
+        //发送设置壁纸的请求
+        startActivity(chooser);
+    }
     private void setBingImg() {
         AsyncHttpClient client = new AsyncHttpClient();
         client.get("https://cn.bing.com/HPImageArchive.aspx?format=js&idx=0&n=1", new JsonHttpResponseHandler() {
@@ -225,6 +273,9 @@ public class MainActivity extends Activity {
                                                                              Intent intent = functionModel.getIntent();
                                                                              if (null != intent)
                                                                                  startActivity(intent);
+                                                                             if ("appbackgroundchange".equals(functionModel.getId())) {
+                                                                                 ChangeTheWallpaper.changeTheWallpaper(mBrowseFragment.getContext());
+                                                                             }
                                                                          }
                                                                      }
                                                                  }
